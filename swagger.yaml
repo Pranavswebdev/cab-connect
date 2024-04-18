@@ -1,0 +1,523 @@
+openapi: 3.0.0
+info:
+  title: Uber App Backend
+  version: 1.0.0
+  description: API documentation for the Uber app backend
+
+servers:
+  - url: http://api.uber.com/v1
+    description: Production server
+
+paths:
+  /users/signup:
+    post:
+      summary: Signup a new user
+      requestBody:
+        required: true
+        content:
+          application/json:    
+            schema:
+              $ref: '#/components/schemas/UserSignup'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          examples:
+            userCreated:
+              value:
+                id: 12345
+                name: John Doe
+                email: john@example.com
+        '400':
+          description: Bad request
+
+  /users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          examples:
+            userLoggedIn:
+              value:
+                id: 12345
+                name: John Doe
+                email: john@example.com
+        '400':
+          description: Bad request
+
+  /users/profile:
+    get:
+      summary: Get user profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          examples:
+            userProfile:
+              value:
+                id: 12345
+                name: John Doe
+                email: john@example.com
+        '401':
+          description: Unauthorized
+
+    put:
+      summary: Update user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+  /drivers/signup:
+    post:
+      summary: Signup a new driver
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverSignup'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+          examples:
+            driverCreated:
+              value:
+                id: 54321
+                name: Jane Smith
+                email: jane@example.com
+        '400':
+          description: Bad request
+
+  /drivers/login:
+    post:
+      summary: Login a driver
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverLogin'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+          examples:
+            driverLoggedIn:
+              value:
+                id: 54321
+                name: Jane Smith
+                email: jane@example.com
+        '400':
+          description: Bad request
+
+  /drivers/profile:
+    get:
+      summary: Get driver profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+          examples:
+            driverProfile:
+              value:
+                id: 54321
+                name: Jane Smith
+                email: jane@example.com
+        '401':
+          description: Unauthorized
+
+    put:
+      summary: Update driver profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+  /cabs:
+    post:
+      summary: Create a new cab
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CabCreate'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cab'
+          examples:
+            cabCreated:
+              value:
+                id: 98765
+                driverId: 54321
+                vehicleType: Sedan
+                licensePlate: ABC123
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+    get:
+      summary: Get all cabs
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cab'
+
+  /trips:
+    post:
+      summary: Create a new trip
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripCreate'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          examples:
+            tripCreated:
+              value:
+                id: 123
+                userId: 12345
+                cabId: 98765
+                pickupLocation: [40.7128, -74.0060]
+                destination: [34.0522, -118.2437]
+                fare: 20
+                status: requested
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+    get:
+      summary: Get all trips
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+
+  /reviews:
+    post:
+      summary: Create a new review
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCreate'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+          examples:
+            reviewCreated:
+              value:
+                id: 456
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+    get:
+      summary: Get all reviews
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    UserSignup:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+
+    DriverSignup:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+
+    DriverLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    DriverResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    DriverUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+
+    CabCreate:
+      type: object
+      properties:
+        driverId:
+          type: string
+        currentLocation:
+          type: array
+          items:
+            type: number
+        vehicleType:
+          type: string
+        licensePlate:
+          type: string
+
+    TripCreate:
+      type: object
+      properties:
+        userId:
+          type: string
+        cabId:
+          type: string
+        pickupLocation:
+          type: array
+          items:
+            type: number
+        destination:
+          type: array
+          items:
+            type: number
+        fare:
+          type: number
+
+    ReviewCreate:
+      type: object
+      properties:
+        userId:
+          type: string
+        driverId:
+          type: string
+        rating:
+          type: number
+        comment:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    Cab:
+      type: object
+      properties:
+        id:
+          type: string
+        driverId:
+          type: string
+        vehicleType:
+          type: string
+        licensePlate:
+          type: string
+
+    Trip:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        cabId:
+          type: string
+        pickupLocation:
+          type: array
+          items:
+            type: number
+        destination:
+          type: array
+          items:
+            type: number
+        fare:
+          type: number
+        status:
+          type: string
+
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        driverId:
+          type: string
+        rating:
+          type: number
+        comment:
+          type: string
