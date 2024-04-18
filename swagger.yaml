@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Uber App Backend
+  title: CAB CONNECT App Backend
   version: 1.0.0
   description: API documentation for the Uber app backend
 
@@ -326,6 +326,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Review'
+
+  /cabs/nearby:
+    get:
+      summary: Get nearby cabs
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cab'
 
 components:
   securitySchemes:

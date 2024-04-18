@@ -13,6 +13,7 @@ exports.createTrip = async (req, res) => {
 
 exports.getTrips = async (req, res) => {
     try {
+        console.log(req.user,'user');
         const trips = await tripService.getTrips(req.user);
         res.send(trips);
     } catch (e) {
