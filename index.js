@@ -19,8 +19,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 mongoose.connect('mongodb+srv://cab-connect:fVoCTUKlip5aqdEi@cluster0.elhbzoy.mongodb.net/',
     {
         useNewUrlParser: true,
-
-
     }
 )
     .then(() => {
