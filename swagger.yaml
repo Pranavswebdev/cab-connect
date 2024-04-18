@@ -5,7 +5,7 @@ info:
   description: API documentation for the Uber app backend
 
 servers:
-  - url: http://api.uber.com/v1
+  - url: https://talented-dove-beret.cyclic.app/api
     description: Production server
 
 paths:
