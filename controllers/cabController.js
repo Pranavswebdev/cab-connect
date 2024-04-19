@@ -24,8 +24,10 @@ exports.getCabs = async (req, res) => {
 
 exports.getCabById = async (req, res) => {
     try {
-        
-        const cab = await cabService.getCabById(req.params.driverId);
+
+        console.log(req.params,'params');
+        console.log(req.query, 'params');
+        const cab = await cabService.getCabById(req.params.id);
         res.send(cab);
     } catch (e) {
         res.status(400).send(e);
