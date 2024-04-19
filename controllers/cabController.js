@@ -26,7 +26,7 @@ exports.getCabById = async (req, res) => {
     try {
 
         console.log(req.params,'params');
-        console.log(req.query, 'params');
+       
         const cab = await cabService.getCabById(req.params.id);
         res.send(cab);
     } catch (e) {

@@ -20,7 +20,8 @@ exports.getCabs = async () => {
 };
 
 exports.getCabById = async (id) => {
-    const cab = await Cab.findById(id);
+    const cab = await Cab.findOne({driverId:id});
+    console.log({cab});
     if (!cab) {
         throw new Error('Cab not found');
     }
