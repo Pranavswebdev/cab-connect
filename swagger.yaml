@@ -328,7 +328,7 @@ paths:
                   $ref: '#/components/schemas/Review'
 
   /cabs/nearby:
-    get:
+    post:
       summary: Get nearby cabs
       security:
         - bearerAuth: []

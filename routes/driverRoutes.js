@@ -6,8 +6,8 @@ const auth = require('../middleware/auth');
 
 router.post('/signup', driverController.signup);
 router.post('/login', driverController.login);
-router.get('/profile', auth, driverController.getProfile);
-router.put('/profile', auth, driverController.updateProfile);
-router.get('/nearby', auth, driverController.getNearby);
+router.get('/profile',  driverController.getProfile);
+router.put('/profile',  driverController.updateProfile);
+router.post('/nearby', driverController.getNearby);
 
 module.exports = router;

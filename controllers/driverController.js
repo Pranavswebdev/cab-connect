@@ -37,7 +37,8 @@ exports.updateProfile = async (req, res) => {
 
 exports.getNearby = async (req, res) => {
     try {
-        const nearbyCabs = await driverService.getNearby(req.driver);
+        console.log(req.body,'query');
+        const nearbyCabs = await driverService.getNearby(req.body);
         res.send(nearbyCabs);
     } catch (e) {
         res.status(400).send(e);
