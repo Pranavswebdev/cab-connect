@@ -29,7 +29,7 @@ exports.getCabById = async (id) => {
 };
 
 exports.updateCab = async (id, updates) => {
-    const cab = await Cab.findById(id);
+    const cab = await Cab.findById(id).populate("driverId");
     if (!cab) {
         throw new Error('Cab not found');
     }
