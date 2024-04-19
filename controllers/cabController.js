@@ -15,7 +15,7 @@ exports.createCab = async (req, res) => {
 
 exports.getCabs = async (req, res) => {
     try {
-        const cabs = await cabService.getCabs();
+        const cabs = await cabService.getCabs(req.params.cabId);
         res.send(cabs);
     } catch (e) {
         res.status(400).send(e);
@@ -24,7 +24,8 @@ exports.getCabs = async (req, res) => {
 
 exports.getCabById = async (req, res) => {
     try {
-        const cab = await cabService.getCabById(req.params.id);
+        
+        const cab = await cabService.getCabById(req.params.driverId);
         res.send(cab);
     } catch (e) {
         res.status(400).send(e);
